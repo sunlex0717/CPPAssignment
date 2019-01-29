@@ -1,6 +1,6 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
-#include<array>
+#include <array>
 #include <initializer_list>
 
 using namespace std;
@@ -62,7 +62,7 @@ public:
         return *this;
     }
     // pointwise + operator
-    Vector<T> operator+(const Vector<T>& other){
+    Vector<T> operator+(const Vector<T>& other) const{
         if(length != other.length){
             throw "Vectors have different size!"
         }
@@ -75,7 +75,7 @@ public:
         return res;
     }
     // right multiplication with scalar
-    Vector<T> operator*(T scalar){
+    Vector<T> operator*(T scalar) const{
 
         Vector<T> res(length);
         for(int i = 0; i<length;++i){
@@ -87,7 +87,7 @@ public:
 
 
     // pointwise - operator
-    Vector<T> operator-const Vector<T>& other){
+    Vector<T> operator-const Vector<T>& other) const{
         if(length != other.length){
             throw "Vectors have different size!"
         }
@@ -102,7 +102,7 @@ public:
 
 
     // right multiplication with scalar vector*scalar
-    Vector<T> operator*(T scalar){
+    Vector<T> operator*(T scalar) const{
 
         Vector<T> res(length);
         for(int i = 0; i<length;++i){
