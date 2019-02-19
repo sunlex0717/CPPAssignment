@@ -1,0 +1,3 @@
+/home/sunlex/Desktop/c++Homework/CPPAssignment/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/sunlex/Desktop/c++Homework/CPPAssignment/cmake-build-debug/CMakeFiles/CPPAssignment.dir
+/home/sunlex/Desktop/c++Homework/CPPAssignment/cmake-build-debug/CMakeFiles/edit_cache.dir

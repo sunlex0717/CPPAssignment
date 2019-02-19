@@ -2,7 +2,8 @@
 #define VECTOR_HPP
 #include <array>
 #include <initializer_list>
-
+#include <memory>
+#include <iostream>
 using namespace std;
 template <typename T>
 class Vector
@@ -12,15 +13,18 @@ private:
     T* data;
 public: 
     // a default constructor that sets the length to zero
-    Vector():length(0),data(nullptr) = default{
+    Vector():length(0),data(nullptr){
     }
     // a constructor that takes a length as an argument
     Vector(int len):length(len),data(nullptr) {
         data = new T[length];
+        for (int i = 0; i < len; ++i) {
+            data[i] = 0; //initialize
+        }
     }
     // a constructor that takes another Vector as a argument and copies the elements of the argument
     Vector(const Vector<T>& other):Vector(other.length) {
-        for (auto i=0; i<other.length; i++){
+        for (int i=0; i<other.length; i++){
             data[i] = other.data[i];
         }
     }
@@ -64,7 +68,8 @@ public:
     // pointwise + operator
     Vector<T> operator+(const Vector<T>& other) const{
         if(length != other.length){
-            throw "Vectors have different size!"
+            std::cout<< "Vectors have different size!"<<std::endl;
+            std::abort();
         }
 
         Vector<T> res(length);
@@ -87,40 +92,49 @@ public:
 
 
     // pointwise - operator
-    Vector<T> operator-const Vector<T>& other) const{
+    Vector<T> operator-(const Vector<T>& other) const{
         if(length != other.length){
-            throw "Vectors have different size!"
+            throw "Vectors have different size!";
         }
 
         Vector<T> res(length);
         for(int i = 0; i<length;++i){
             res.data[i] = data[i] - other.data[i];
         }
-
         return res;
     }
 
-
-    // right multiplication with scalar vector*scalar
-    Vector<T> operator*(T scalar) const{
-
-        Vector<T> res(length);
-        for(int i = 0; i<length;++i){
-            res.data[i] = data[i]*scalar;
+    const T operator[](int k) const{
+        if(k<0 || k >=length){
+            std::cout<< "Vector index out of bound"<<std::endl;
+            std::abort();
         }
-
-        return res;
+        return data[k];
     }
 
-friend:
-    Vector<T> operator*(T scalar,const Vector<T>& v);
-    T dot(const Vector<T>& lhs, const Vector<T>& rhs);
-    // Your implementation of the Vector class starts here
+    T& operator[] (int k){
+        if(k<0 || k >=length){
+            std::cout<< "Vector index out of bound"<<std::endl;
+            std::abort();
+        }
+        return data[k];
+    }
+
+
+    template <class U>
+    friend Vector<U> operator*(U scalar,const Vector<U>& v);
+
+    template <class U>
+    friend  U dot(const Vector<U>& lhs, const Vector<U>& rhs);
+
+    template <class U>
+    friend ostream& operator<<(ostream& os, const Vector<U>& rhs);
+
 };
 
 // friend function scalar*vector
 template <typename T>
-Vector<T> Vector<T>::operator*(T scalar,const Vector<T>& other){
+Vector<T> operator*(T scalar,const Vector<T>& other){
      Vector<T> res(other.length);
      res = other*scalar;
      return res;
@@ -128,19 +142,26 @@ Vector<T> Vector<T>::operator*(T scalar,const Vector<T>& other){
 
 // friend function dot
 template<typename T>
-T Vector<T>::dot(const Vector<T>& lhs, const Vector<T>& rhs){
-    if(lhs.length != other.length){
-            throw "Vectors have different size!"
+T dot(const Vector<T>& lhs, const Vector<T>& rhs){
+    if(lhs.length != rhs.length){
+            throw "Vectors have different size!";
     }
 
     T res = 0;
-    for(int = 0; i<lhs.length;++i){
-        T += lhs.data[i]*rhs.data[i];
+    for(int i = 0; i<lhs.length;++i){
+        res += lhs.data[i]*rhs.data[i];
     }
 
-    return T;
+    return res;
 }
 
+template<typename T>
+ostream& operator<<(ostream& os, const Vector<T>& rhs){
+    for(int i = 0; i<rhs.length;++i){
+        os<< rhs.data[i] <<" " ;
+    }
+    return os;
+}
 
 
 #endif // VECTOR_HPP
