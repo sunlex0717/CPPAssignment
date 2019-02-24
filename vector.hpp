@@ -32,16 +32,19 @@ public:
     Vector(std::initializer_list<T> list):Vector((int)list.size()){
         std::uninitialized_copy(list.begin(), list.end(), data);
     }
-    // deconstructor
+    // destructor
     ~Vector(){
         length = 0;
         delete[] data;
     }
 
+    int getLen() const{
+        return length;
+    }
     // copy operator 
     Vector<T>& operator=(const Vector<T>& other)
     {
-        if (this != &other)
+        if (this != &other) // identity check
         {
             delete[] data;
             length = other.length;
@@ -55,7 +58,7 @@ public:
 
     Vector<T>& operator=(Vector<T>&& other)
     {
-        if (this != &other)
+        if (this != &other) // identity check
         {
             delete[] data;
             length = other.length;
@@ -130,6 +133,10 @@ public:
     template <class U>
     friend ostream& operator<<(ostream& os, const Vector<U>& rhs);
 
+    template <class U>
+    friend U sum(const Vector<U>& lhs);
+
+
 };
 
 // friend function scalar*vector
@@ -161,6 +168,16 @@ ostream& operator<<(ostream& os, const Vector<T>& rhs){
         os<< rhs.data[i] <<" " ;
     }
     return os;
+}
+
+template <typename T>
+T sum(const Vector<T>& lhs){
+    T res = 0;
+    for(int i=0;i<lhs.length;++i){
+        res += lhs.data[i];
+    }
+
+    return res;
 }
 
 
