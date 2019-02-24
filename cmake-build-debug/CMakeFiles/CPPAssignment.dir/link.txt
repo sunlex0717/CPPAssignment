@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/CPPAssignment.dir/main.cpp.o  -o CPPAssignment 
